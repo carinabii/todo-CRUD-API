@@ -1,11 +1,6 @@
 import mongoose, {Schema} from "mongoose";
 
 const todoSchema = new mongoose.Schema({
-    id:{
-        type: String,
-        unique: true,
-        required: true
-    },
     userID:{
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -24,12 +19,7 @@ const todoSchema = new mongoose.Schema({
     completed:{
         type: Boolean,
         required: true,
-        default: true
-    },
-    isActive: {
-        type: Boolean,
-        required: true,
-        default: true
+        default: false
     }
 
 });
