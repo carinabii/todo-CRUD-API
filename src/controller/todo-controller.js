@@ -20,17 +20,16 @@ async function getTodo(req, res) {
 
 async function getTodosByCategory(req, res) {
     if (req.params.completed == 0 || req.params.completed == 1){
-        let query = {completed:req.params.completed, category: req.params.category};
-        try {
-            const todo = await Todo.find(query);
-            res.status(200).json(todo);
-        } catch (err) {
-            res.status(500).json({message: err.message});
-        }
-    } else {
         res.status(400).json("Bad input.");
+        return;
     }
-
+    let query = {completed:req.params.completed, category: req.params.category};
+    try {
+        const todo = await Todo.find(query);
+        res.status(200).json(todo);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
 }
 
 async function getTodosByDate(req, res) {
