@@ -1,8 +1,8 @@
 import express from "express";
 import session from "express-session";
 import bodyParser from "body-parser";
-import authRoutes from "./src/routes/auth-routes.js";
-import todoRoutes from "./src/routes/todo-routes.js";
+import authRoutes from "./routes/auth-routes.js";
+import todoRoutes from "./routes/todo-routes.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
