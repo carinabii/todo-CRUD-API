@@ -22,6 +22,4 @@ router.delete("/delete/:id",
     middleware.getTodo,
     todoController.deleteTodo);
 
-router.delete('/delete', todoController.deleteAll);
-
 export default router;

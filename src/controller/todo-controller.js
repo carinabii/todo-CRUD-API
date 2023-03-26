@@ -97,18 +97,9 @@ async function deleteTodo(req,res) {
     }
 }
 
-async function deleteAll(req,res) {
-    try {
-        const del = await Todo.deleteMany();
-        res.status(201).json(del);
-    } catch (err) {
-        res.status(400).json({message: err.message});
-    }
-}
-
 // date checker from https://stackoverflow.com/questions/7445328/check-if-a-string-is-a-date-value
 function isDate(date) {
     return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
 }
 
-export default {getAll, createTodo, deleteTodo, updateTodo, getTodo, getTodosByCategory, getTodosByDate, deleteAll};
+export default {getAll, createTodo, deleteTodo, updateTodo, getTodo, getTodosByCategory, getTodosByDate};

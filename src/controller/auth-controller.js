@@ -44,13 +44,4 @@ async function login(req, res) {
     }
 }
 
-async function deleteAll(req,res) {
-    try {
-        const del = await User.deleteMany();
-        res.status(201).json(del);
-    } catch (err) {
-        res.status(400).json({message: err.message});
-    }
-}
-
-export default {getAll, createUser, login, deleteAll};
+export default {getAll, createUser, login};

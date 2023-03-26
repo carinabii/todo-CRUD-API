@@ -8,6 +8,4 @@ router.post('/createUser', authController.createUser);
 
 router.post('/login', authController.login);
 
-router.delete('/delete', authController.deleteAll);
-
 export default router;
