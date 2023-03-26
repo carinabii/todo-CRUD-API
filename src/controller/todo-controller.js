@@ -18,7 +18,40 @@ async function getTodo(req, res) {
     }
 }
 
+async function getTodosByCategory(req, res) {
+    if (req.params.completed == 0 || req.params.completed == 1){
+        let query = {completed:req.params.completed, category: req.params.category};
+        try {
+            const todo = await Todo.find(query);
+            res.status(200).json(todo);
+        } catch (err) {
+            res.status(500).json({message: err.message});
+        }
+    } else {
+        res.status(400).json("Bad input.");
+    }
+
+}
+
+async function getTodosByDate(req, res) {
+    if (!isDate(req.params.startDate) && !isDate(req.params.endDate)){
+        res.status(400).json("Bad date format");
+        return;
+    }
+    let query = {dueDate: {$gt: req.params.startDate, $lt: req.params.endDate}};
+    try {
+        const todo = await Todo.find(query);
+        res.status(200).json(todo);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+}
+
 async function createTodo(req, res) {
+    if (!isDate(req.body.dueDate)){
+        res.status(400).json("Bad date format.");
+        return;
+    }
     try {
         const currentUserID = req.session.userID;
         const todo = new Todo({
@@ -44,7 +77,7 @@ async function updateTodo(req,res) {
     if (req.body.completed !== null && req.body.completed !== undefined){
         res.todo.completed = req.body.completed;
     }
-    if (req.body.dueDate !== null && req.body.dueDate !== undefined){
+    if (req.body.dueDate !== null && req.body.dueDate !== undefined && isDate(req.body.dueDate)){
         res.todo.dueDate = req.body.dueDate;
     }
 
@@ -74,4 +107,9 @@ async function deleteAll(req,res) {
     }
 }
 
-export default {getAll, createTodo, deleteTodo, updateTodo,getTodo,deleteAll};
+// date checker from https://stackoverflow.com/questions/7445328/check-if-a-string-is-a-date-value
+function isDate(date) {
+    return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
+}
+
+export default {getAll, createTodo, deleteTodo, updateTodo, getTodo, getTodosByCategory, getTodosByDate, deleteAll};

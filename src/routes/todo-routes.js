@@ -3,11 +3,14 @@ import todoController from "../controller/todo-controller.js";
 import middleware from "../middleware/middleware.js";
 const router = express.Router();
 
-router.get('/', todoController.getAll);
+router.get("/", todoController.getAll);
+router.get("/:id", todoController.getTodo);
+router.get('/getByFilters/:completed/:category', todoController.getTodosByCategory);
+router.get('/getByDate/:startDate/:endDate', todoController.getTodosByDate);
 
-router.get('/:id', todoController.getTodo);
-
-router.post("/create", todoController.createTodo);
+router.post("/create",
+    middleware.isLoggedIn,
+    todoController.createTodo);
 
 router.patch("/update/:id",
     middleware.isLoggedIn,
