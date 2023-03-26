@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import bcrypt from "bcrypt";
 
 async function getAll(req, res) {
     try {
@@ -10,10 +11,12 @@ async function getAll(req, res) {
 }
 
 async function createUser(req, res) {
+    const salt = 10;
     try {
+        const hashedPass = await bcrypt.hash(req.body.password, salt);
         const user = new User({
             username: req.body.username,
-            password: req.body.password
+            password: hashedPass
         });
         const newUser = await user.save();
         res.status(201).json(newUser);
@@ -24,15 +27,18 @@ async function createUser(req, res) {
 
 async function login(req, res) {
     try {
-        const findUser = await User.findOne({username: req.body.username, password: req.body.password});
+        const findUser = await User.findOne({username: req.body.username});
         if (findUser !== null){
-            req.session.userID = findUser._id;
-            req.session.loggedIn = true;
-            req.session.save();
-            res.status(200).json(findUser);
-        } else {
-            res.status(400).json("Invalid login");
+            const compare = await bcrypt.compare(req.body.password, findUser.password);
+            if (compare){
+                req.session.userID = findUser._id;
+                req.session.loggedIn = true;
+                req.session.save();
+                res.status(200).json(findUser);
+                return;
+            }
         }
+        res.status(400).json("Invalid login");
     } catch (err) {
         res.status(400).json({message: err.message});
     }
