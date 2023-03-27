@@ -14,7 +14,7 @@ DATABASE_URL=
 PORT=
 SECRET=
 ```
-<br /><br />
+<br />
 Then, run:
 ```node src/server.js```<br />
 
