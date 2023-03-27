@@ -21,8 +21,8 @@ db.on("error", (error) => console.error(error));
 db.once("open", ()=> console.log("DB Connection Opened"));
 
 // add routes
-app.use('/auth', authRoutes);
-app.use('/todo', todoRoutes);
+app.use("/auth", authRoutes);
+app.use("/todo", todoRoutes);
 
 app.listen(process.env.PORT, () => {
     console.log(`Listening on port http://localhost:${process.env.PORT}`);
