@@ -19,7 +19,7 @@ async function getTodo(req, res) {
 }
 
 async function getTodosByCategory(req, res) {
-    if (req.params.completed == 0 || req.params.completed == 1){
+    if (req.params.completed != 0 && req.params.completed != 1){
         res.status(400).json("Bad input.");
         return;
     }
@@ -47,10 +47,11 @@ async function getTodosByDate(req, res) {
 }
 
 async function createTodo(req, res) {
-    if (!isDate(req.body.dueDate)){
+    if (!isDate(req.body.dueDate) && req.body.dueDate !== null && req.body.dueDate !== undefined){
         res.status(400).json("Bad date format.");
         return;
     }
+
     try {
         const currentUserID = req.session.userID;
         const todo = new Todo({

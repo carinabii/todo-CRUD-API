@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.get("/", todoController.getAll);
 router.get("/:id", todoController.getTodo);
-router.get('/getByFilters/:completed/:category', todoController.getTodosByCategory);
-router.get('/getByDate/:startDate/:endDate', todoController.getTodosByDate);
+router.get('/get-by-category/:completed/:category', todoController.getTodosByCategory);
+router.get('/get-by-date/:startDate/:endDate', todoController.getTodosByDate);
 
 router.post("/create",
     middleware.isLoggedIn,

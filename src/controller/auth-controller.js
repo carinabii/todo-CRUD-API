@@ -11,6 +11,15 @@ async function getAll(req, res) {
 }
 
 async function createUser(req, res) {
+    if(req.body.password === undefined || req.body.username === undefined){
+        res.status(400).json("Missing inputs.");
+        return;
+    }
+    if (User.find({username: req.body.username}) !== null){
+        res.status(409).json("Error. Duplicate usernames.")
+        return;
+    }
+
     const salt = 10;
     try {
         const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -38,7 +47,7 @@ async function login(req, res) {
                 return;
             }
         }
-        res.status(400).json("Invalid login");
+        res.status(400).json("Login failed.");
     } catch (err) {
         res.status(400).json({message: err.message});
     }
