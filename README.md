@@ -7,7 +7,7 @@ Documentation for the API methods can be found here: https://documenter.getpostm
 ## Setup:
 After cloning the project, run: <br />
 ```npm install```<br />
-```node server.js```<br />
+```node src/server.js```<br />
 
 To work in a development environment (with nodemon), run
 ```npm start```
